@@ -1,0 +1,10 @@
+.rate-group  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20rpx;
+}
+.rate-group image {
+  width: 20rpx;
+  height: 20rpx;
+}
