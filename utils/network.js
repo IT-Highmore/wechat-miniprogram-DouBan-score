@@ -2,21 +2,25 @@ import { globalUrls } from "urls.js";
 
 const network = {
 
+  // 获取电影列表
   getMovieList: function (params) {
     params.type = "movie";
     this.getItemList(params)
   },
 
+  // 获取电视列表
   getTVList: function (params) {
     params.type = "tv";
     this.getItemList(params)
   },
 
+  // 获取综艺列表
   getShowList: function (params) {
     params.type = "show";
     this.getItemList(params)
   },
 
+  // 获取item列表
   getItemList: function(params){
     let url = "";
     if (params.type === "movie") {
@@ -35,6 +39,7 @@ const network = {
       success: function (res) {
         let items = res.data.subject_collection_items;
         let itemsCount =  items.length;
+        console.log(items)
         let left = itemsCount%3;
         if (left === 2) {
           items.push(null)
@@ -44,6 +49,99 @@ const network = {
         }
       }
     });
+  },
+
+  // 获取详情
+  getItemDetail: function(params){
+    const type =  params.type;
+    const id = params.id;
+    let url = "";
+    if(type === "movie"){
+      url = globalUrls.movieDetail  + id;
+    } else if(type === 'tv'){
+      url = globalUrls.tvDetail + id;
+    } else {
+      url = globalUrls.showDetail + id;
+    }
+
+    wx.request({
+      url: url,
+      success:  function(res){
+        const item= res.data;
+        if(params.success){
+          params.success(item)
+        }
+      }
+    })
+  },
+
+  // 获取标签
+  getItemTags: function(params) {
+    const type = params.type;
+    const id = params.id;
+    let url = "";
+    if (type === "movie") {
+      url = globalUrls.movietags(id);
+    } else if (type === 'tv') {
+      url = globalUrls.tvtags(id);
+    } else {
+      url = globalUrls.showtags(id);
+    }
+
+    wx.request({
+      url: url,
+      success: function (res) {
+        const tags = res.data.tags;
+        if (params.success) {
+          params.success(tags)
+        }
+      }
+    });
+  },
+
+  // 获取网评
+  getItemComments: function(params) {
+    const type = params.type;
+    const id = params.id;
+    const start = params.start ? params.start : 0;
+    const count = params.count ? params.count : 3;
+
+    let url = "";
+
+    if (type === "movie") {
+      url = globalUrls.movieComments(id,start,count);
+    } else if (type === 'tv') {
+      url = globalUrls.tvComments(id, start, count);
+    } else {
+      url = globalUrls.showComments(id, start, count);
+    }
+
+
+    wx.request({
+      url: url,
+      success: function (res) {
+        const data = res.data;
+        if (params.success) {
+          params.success(data)
+        }
+      }
+    });
+  },
+
+  // 获取电影搜索
+  getSearch: function(params) {
+    let q = params.q;
+    let url = globalUrls.searchUrl(q);
+    wx.request({
+      url: url,
+      success: (res) => {
+        console.log(res);
+        let subjects = res.data.subjects;
+        if(params.success) {
+          params.success(subjects);
+        }
+      }
+    })
   }
 }
 

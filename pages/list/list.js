@@ -15,6 +15,9 @@ Page({
   onLoad: function (options) {
     const type =  options.type;
     const that = this;
+    that.setData({
+      type:type
+    })
     let title =  "";
     wx.showLoading({
       title: '正在加载中...',

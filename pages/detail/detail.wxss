@@ -72,3 +72,19 @@
   margin-right: 20rpx;
   margin-bottom: 20rpx;
 }
+
+.comment-list-group{
+  padding: 60rpx 30rpx;
+}
+.comment-title{
+  font-size: 32rpx;
+  color: #b3b3b3;
+}
+
+.more-comment{
+  font-size: 36rpx;
+  text-align: center;
+  color: #41be57;
+  margin-bottom: 40rpx;
+  
+}

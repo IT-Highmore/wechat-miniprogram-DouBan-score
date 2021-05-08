@@ -1,25 +1,25 @@
 <view class="item-header">
-  <view class="item-title">海王</view>
+  <view class="item-title">{{item.title}}{{item.original_title}}{{item.year}}</view>
   <view class="item-detail">
     <view class="left-detail">
       <view class="item-rate">
-        <stars rate="8.0" starsize="30" fontsize="30" fontcolor="#595959"></stars>
-        <text class="comment-persons">203894人评价 </text>
+        <stars rate="{{item.rating.value}}" starsize="30" fontsize="30" fontcolor="#595959"></stars>
+        <text class="comment-persons">{{item.comment_count}}人评价 </text>
       </view>
       <view class="item-sub-detail">
         <view class="item-type">
-          143分钟 动作/奇幻/冒险
+          {{item.durations[0]}} {{item.genres}}
         </view>
         <view class="item-show">
-          2018-12-07(中国大陆)上映 美国 
+          {{item.pubdate}}上映 {{item.countries[0]}}
         </view>
         <view class="item-actors">
-          温子仁（导演）/杰森莫玛/艾梅伯
+          {{item.authors}}
         </view>
       </view>
     </view>
     <view class="right-detail">
-      <image src="https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2569020232.webp"></image>
+      <image src="{{item.cover.image.small.url}}"></image>
     </view>
   </view>
 </view>
@@ -27,18 +27,13 @@
 <view class="item-tags">
   <view class="item-tags-title">豆瓣成员常用标签</view>
   <view class="item-tags-list">
-    <text>黑色幽默</text><text>小人物</text><text>戏剧</text><text>中国大陆</text><text>戏剧</text><text>方言 </text><text>人性</text>
+    <text wx:for="{{tags}}" wx:key="{{this}}">{{item}}</text>>
   </view>
 </view>
 
 <view class="comment-list-group">
-  <view class="comment-title">短评</view>
-  <view class="comment-group">
-    <view class="left-comment">
-      <image class="avatar" src="https://img3.doubanio.com/icon/u1107947-16.jpg"></image>
-    </view>
-    <view>
-    
-    </view>
-  </view>
+  <view class="comment-title">短评{{totalComment}}</view>
+  <comment wx:for="{{comments}}" wx:key="{{item.id}}" item="{{item}}"></comment>
 </view>
+
+<navigator class="more-comment" url="/pages/comments/comments?id={{id}}&type={{type}}&title={{item.title}}&thumbnail={{item.cover.image.small.url}}&rate={{item.rating.value}}">查看更多短评</navigator>
